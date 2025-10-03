@@ -1,5 +1,6 @@
 # app.py
 import streamlit as st
+from streamlit_mermaid import st_mermaid
 import pandas as pd
 import requests
 import json
@@ -79,6 +80,7 @@ if page == "Prompt & Workflow":
    st.header("1) Describe what you want to automate")
    user_input = st.text_area("Write a natural language instruction (e.g. \"Automate invoice data entry and reconciliation\")", height=120)
    uploaded_file = st.file_uploader("Optionally upload an example file (invoice/image/pdf)", type=["pdf", "png", "jpg", "jpeg"])
+   st.session_state["uploadedFile"] = uploaded_file
    col1, col2 = st.columns([1, 1])
    with col1:
        if st.button("Generate Workflow"):
@@ -125,7 +127,7 @@ if page == "Execute Workflow":
        if st.button("Execute Workflow"):
            with st.spinner("Executing..."):
                if MOCK_MODE:
-                   print("Vivek:"+uploaded_file.name)
+                   uploaded_file = st.session_state["uploadedFile"]
                    results = execute_workflow_local(st.session_state["workflow"], uploaded_file_bytes=(uploaded_file.getvalue() if uploaded_file else None))
                else:
                    results = call_remote("POST", "/execute-workflow", json_payload={"workflow": st.session_state["workflow"]})

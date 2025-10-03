@@ -8,7 +8,8 @@ import os
 from typing import Dict
 # ========== CONFIG ==========
 # By default we run in MOCK mode (no GCP required).
-MOCK_MODE = os.environ.get("MOCK_MODE", "true").lower() in ("1", "true", "yes")
+#MOCK_MODE = os.environ.get("MOCK_MODE", "false").lower() in ("1", "false", "yes")
+MOCK_MODE = False
 API_BASE = os.environ.get("API_BASE", "http://0.0.0.0:8000")  # used only when MOCK_MODE=False
 st.set_page_config(page_title="Agentic Automation POC", layout="wide")
 st.title("🤖 Agentic Task Automation — POC (IntelliFlow)")
